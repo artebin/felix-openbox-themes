@@ -1,43 +1,23 @@
 #!/usr/bin/env bash
 
-POLAR_NIGHT_0="#2e3440"
-POLAR_NIGHT_1="#3b4252"
-POLAR_NIGHT_2="#434c5e"
-POLAR_NIGHT_3="#4c566a"
+function print_usage(){
+	printf "Usage: ${0} -f <FELIX_OPENBOX_PALETTE_FILE>\n"
+	printf "\n"
+}
 
-SNOW_STORM_0="#d8dee9"
-SNOW_STORM_1="#e5e9f0"
-SNOW_STORM_2="#eceff4"
+FELIX_OPENBOX_PALETTE_FILE=""
+if [[ $# != 1 ]]; then
+	print_usage
+	exit 1
+fi
+FELIX_OPENBOX_PALETTE_FILE="${1}"
+if [[ ! -f "${FELIX_OPENBOX_PALETTE_FILE}" ]]; then
+	printf "Cannot find FELIX_OPENBOX_PALETTE_FILE[%]\n" "${FELIX_OPENBOX_PALETTE_FILE}"
+	print_usage
+fi
+source "${FELIX_OPENBOX_PALETTE_FILE}"
 
-FROST_0="#8fbcbb"
-FROST_1="#88c0d0"
-FROST_2="#81a1c1"
-FROST_3="#5e81ac"
-
-AURORA_0="#bf616a"
-AURORA_1="#d08770"
-AURORA_2="#ebcb8b"
-AURORA_3="#a3be8c"
-AURORA_4="#b48ead"
-
-WINDOW_ACTIVE_TITLE_BACKGROUND_COLOR="${POLAR_NIGHT_3}"
-WINDOW_ACTIVE_TITLE_FONT_COLOR="#fef0cb"
-
-WINDOW_INACTIVE_TITLE_BACKGROUND_COLOR="${POLAR_NIGHT_3}"
-WINDOW_INACTIVE_TITLE_FONT_COLOR="#fef0cb"
-
-MENU_ACTIVE_BACKGROUND_COLOR="${AURORA_2}"
-MENU_ACTIVE_FONT_COLOR="${POLAR_NIGHT_3}"
-
-MENU_INACTIVE_BACKGROUND_COLOR="${POLAR_NIGHT_3}"
-MENU_INACTIVE_FONT_COLOR="#fcf1ca"
-
-MENU_TITLE_BACKGROUND_COLOR="${POLAR_NIGHT_2}"
-MENU_TITLE_FONT_COLOR="#fcf1ca"
-
-MENU_DISABLED_FONT_COLOR="darkgray"
-
-THEME_VARIABLE_NAME_LIST=( 
+THEME_VARIABLE_NAME_LIST=(
 	WINDOW_ACTIVE_TITLE_BACKGROUND_COLOR
 	WINDOW_ACTIVE_TITLE_FONT_COLOR
 	WINDOW_INACTIVE_TITLE_BACKGROUND_COLOR
@@ -49,7 +29,7 @@ THEME_VARIABLE_NAME_LIST=(
 	MENU_TITLE_BACKGROUND_COLOR
 	MENU_TITLE_FONT_COLOR
 	MENU_DISABLED_FONT_COLOR
-	)
+)
 
 THEMERC_PROPERTY_NAME_LIST_WINDOW_ACTIVE_TITLE_BACKGROUND_COLOR=( "window.active.title.bg.color" )
 THEMERC_PROPERTY_NAME_LIST_WINDOW_ACTIVE_TITLE_FONT_COLOR=( "window.active.label.text.color" )
@@ -123,8 +103,10 @@ function apply_template(){
 
 function generate_themerc_html_overview(){
 	FILE_PATH="${1}"
-	HTML_OVERVIEW="<html><style>table,th,td{border:1px solid black;border-collapse:collapse;} td{padding:5px;}</style>"
-	HTML_OVERVIEW+="<table><tr><th>Key</th><th>Value</th></tr>"
+	
+	HTML_OVERVIEW="<html><head><link rel=\"stylesheet\" href=\"themerc.overview.css\"/><head><body>"
+	
+	HTML_OVERVIEW+="<div class=\"split left\"><div><table><tr><th>themerc key</th><th>themerc value</th></tr>"
 	while IFS= read -r LINE; do
 		if [[ ! -z "${LINE}" ]]; then
 			key_value_retriever "${LINE}" "LINE_KEY" "LINE_VALUE"
@@ -143,7 +125,16 @@ function generate_themerc_html_overview(){
 			fi
 		fi
 	done < "${FILE_PATH}"
-	HTML_OVERVIEW+="</table></html>"
+	HTML_OVERVIEW+="</table></div></div>"
+	
+	HTML_OVERVIEW+="<div class=\"split right\"><div><table><tr><th>palette key</th><th>palette value</th></tr>"
+	for THEME_VARIABLE_NAME in "${THEME_VARIABLE_NAME_LIST[@]}"; do
+		HTML_OVERVIEW+="<tr><td>${THEME_VARIABLE_NAME}</td>"
+		HTML_OVERVIEW+="<td><span style=\"display:inline-block;width:120px;height:40px;background-color:${!THEME_VARIABLE_NAME};\">&nbsp;</span> ${!THEME_VARIABLE_NAME}</td>"
+	done
+	HTML_OVERVIEW+="</table></div></div>"
+	
+	HTML_OVERVIEW+="</body></html>"
 	echo "${HTML_OVERVIEW}" >"${FILE_PATH}.overview.html"
 }
 
@@ -153,4 +144,3 @@ mv themerc.sorted themerc
 apply_template
 generate_themerc_html_overview themerc
 openbox --reconfigure
-
