@@ -10,10 +10,12 @@ if [[ $# != 1 ]]; then
 	print_usage
 	exit 1
 fi
+
 FELIX_OPENBOX_PALETTE_FILE="${1}"
 if [[ ! -f "${FELIX_OPENBOX_PALETTE_FILE}" ]]; then
 	printf "Cannot find FELIX_OPENBOX_PALETTE_FILE[%]\n" "${FELIX_OPENBOX_PALETTE_FILE}"
 	print_usage
+	exit 1
 fi
 source "${FELIX_OPENBOX_PALETTE_FILE}"
 
