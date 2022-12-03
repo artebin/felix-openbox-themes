@@ -104,6 +104,5 @@ window.inactive.label.text.color: #fef0cb
 window.inactive.label.text.font: shadow=y:shadowtint=70:shadowoffset=1
 window.inactive.title.bg.color: #4c566a
 window.inactive.title.bg: flat solid
-window.inactive.title.bg.interlace.color: black
 window.inactive.title.separator.color: #434c5e
 window.label.text.justify: center
