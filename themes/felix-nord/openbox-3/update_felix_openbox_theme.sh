@@ -21,14 +21,25 @@ source "${FELIX_OPENBOX_PALETTE_FILE}"
 
 THEMERC_PROPERTY_NAME_LIST_WINDOW_ACTIVE_TITLE_BACKGROUND_COLOR=( "window.active.title.bg.color" )
 THEMERC_PROPERTY_NAME_LIST_WINDOW_ACTIVE_TITLE_FONT_COLOR=( "window.active.label.text.color" )
+
 THEMERC_PROPERTY_NAME_LIST_WINDOW_INACTIVE_TITLE_BACKGROUND_COLOR=( "window.inactive.title.bg.color" )
 THEMERC_PROPERTY_NAME_LIST_WINDOW_INACTIVE_TITLE_FONT_COLOR=( "window.inactive.label.text.color" )
+
 THEMERC_PROPERTY_NAME_LIST_MENU_ACTIVE_BACKGROUND_COLOR=( "menu.items.active.bg.color" "osd.hilight.bg.color" )
 THEMERC_PROPERTY_NAME_LIST_MENU_ACTIVE_FONT_COLOR=( "menu.items.active.text.color" )
+
 THEMERC_PROPERTY_NAME_LIST_MENU_INACTIVE_BACKGROUND_COLOR=( "menu.items.bg.color" "osd.unhilight.bg.color" "osd.button.focused.bg.color" "osd.button.pressed.bg.color" "osd.button.unpressed.bg.color" )
 THEMERC_PROPERTY_NAME_LIST_MENU_INACTIVE_FONT_COLOR=( "menu.items.text.color" )
+
+THEMERC_PROPERTY_NAME_LIST_MENU_DISABLED_ACTIVE_BACKGROUND_COLOR=( "menu.items.active.disabled.bg.color" "osd.hilight.bg.color" )
+THEMERC_PROPERTY_NAME_LIST_MENU_DISABLED_ACTIVE_FONT_COLOR=( "menu.items.active.disabled.text.color" )
+
+THEMERC_PROPERTY_NAME_LIST_MENU_DISABLED_INACTIVE_BACKGROUND_COLOR=( "menu.items.disabled.bg.color" "osd.unhilight.bg.color" "osd.button.focused.bg.color" "osd.button.pressed.bg.color" "osd.button.unpressed.bg.color" )
+THEMERC_PROPERTY_NAME_LIST_MENU_DISABLED_INACTIVE_FONT_COLOR=( "menu.items.disabled.text.color" )
+
 THEMERC_PROPERTY_NAME_LIST_MENU_TITLE_BACKGROUND_COLOR=( "menu.title.bg.color" "osd.bg.color" )
 THEMERC_PROPERTY_NAME_LIST_MENU_TITLE_FONT_COLOR=( "menu.title.text.color" )
+
 THEMERC_PROPERTY_NAME_LIST_MENU_DISABLED_FONT_COLOR=( "menu.items.disabled.text.color" )
 
 THEMERC_PROPERTY_VALUE_DELIMITER=":"
@@ -125,11 +136,15 @@ function generate_themerc_html_overview(){
 			key_value_retriever "${LINE}" "LINE_KEY" "LINE_VALUE"
 			if [[ ! -z "${LINE_KEY}" ]]; then
 				if [[ "${LINE_KEY}" == *.color* ]]; then
-					is_color_from_palette "${LINE_VALUE}" "IS_COLOR_FROM_PALETTE" 
-					if [[ "${IS_COLOR_FROM_PALETTE}" == "true" ]]; then
-						HTML_OVERVIEW+="<tr>"
-					else
+					if [[ -z "${LINE_VALUE}" ]]; then
 						HTML_OVERVIEW+="<tr style=\"background: repeating-linear-gradient( -55deg, #ffffff, #ffffff 10px, #eeeeee 10px, #eeeeee 20px );\">"
+					else
+						is_color_from_palette "${LINE_VALUE}" "IS_COLOR_FROM_PALETTE" 
+						if [[ "${IS_COLOR_FROM_PALETTE}" == "true" ]]; then
+							HTML_OVERVIEW+="<tr>"
+						else
+							HTML_OVERVIEW+="<tr style=\"background: repeating-linear-gradient( -55deg, #ffffff, #ffffff 10px, #eeeeee 10px, #eeeeee 20px );\">"
+						fi
 					fi
 					HTML_OVERVIEW+="<td>${LINE_KEY}</td>"
 					HTML_OVERVIEW+="<td><span style=\"display:inline-block;width:120px;height:40px;background-color:${LINE_VALUE};\">&nbsp;</span> ${LINE_VALUE}</td>"
