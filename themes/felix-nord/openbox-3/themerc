@@ -6,14 +6,14 @@ menu.items.active.bg.border.color: #ebcb8b
 menu.items.active.bg.border.width: 0
 menu.items.active.bg.color: #ebcb8b
 menu.items.active.bg: flat
-menu.items.active.disabled.text.color: 
+menu.items.active.disabled.text.color: #a9a9a9
 menu.items.active.font: shadow=n
 menu.items.active.text.color: #4c566a
 menu.items.bg.border.color: #4c566a
 menu.items.bg.border.width: 0
 menu.items.bg.color: #4c566a
 menu.items.bg: flat
-menu.items.disabled.text.color: darkgray
+menu.items.disabled.text.color: #565656
 menu.items.font: shadow=n
 menu.items.text.color: #fcf1ca
 menu.overlap.x: -5
@@ -33,20 +33,20 @@ osd.bg.color: #434c5e
 osd.bg: flat solid
 osd.border.color:  #474439
 osd.border.width: 1
-osd.button.focused.bg.color: 
+osd.button.focused.bg.color: #4c566a
 osd.button.focused.bg: flat solid
 osd.button.focused.text.color: #fef0cb
-osd.button.pressed.bg.color: 
+osd.button.pressed.bg.color: #4c566a
 osd.button.pressed.bg: flat solid
 osd.button.pressed.text.color: #c9bfa1
-osd.button.unpressed.bg.color: 
+osd.button.unpressed.bg.color: #4c566a
 osd.button.unpressed.bg: flat solid
 osd.button.unpressed.text.color:  #a89f87
-osd.hilight.bg.color: 
+osd.hilight.bg.color: #ebcb8b
 osd.hilight.bg: flat solid
 osd.label.bg: parentrelative
 osd.label.text.color: #fef0cb
-osd.unhilight.bg.color: 
+osd.unhilight.bg.color: #4c566a
 osd.unhilight.bg: flat solid
 padding.height: 4
 padding.width: 6

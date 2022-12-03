@@ -31,16 +31,14 @@ THEMERC_PROPERTY_NAME_LIST_MENU_ACTIVE_FONT_COLOR=( "menu.items.active.text.colo
 THEMERC_PROPERTY_NAME_LIST_MENU_INACTIVE_BACKGROUND_COLOR=( "menu.items.bg.color" "osd.unhilight.bg.color" "osd.button.focused.bg.color" "osd.button.pressed.bg.color" "osd.button.unpressed.bg.color" )
 THEMERC_PROPERTY_NAME_LIST_MENU_INACTIVE_FONT_COLOR=( "menu.items.text.color" )
 
-THEMERC_PROPERTY_NAME_LIST_MENU_DISABLED_ACTIVE_BACKGROUND_COLOR=( "menu.items.active.disabled.bg.color" "osd.hilight.bg.color" )
+THEMERC_PROPERTY_NAME_LIST_MENU_DISABLED_ACTIVE_BACKGROUND_COLOR=( "osd.hilight.bg.color" )
 THEMERC_PROPERTY_NAME_LIST_MENU_DISABLED_ACTIVE_FONT_COLOR=( "menu.items.active.disabled.text.color" )
 
-THEMERC_PROPERTY_NAME_LIST_MENU_DISABLED_INACTIVE_BACKGROUND_COLOR=( "menu.items.disabled.bg.color" "osd.unhilight.bg.color" "osd.button.focused.bg.color" "osd.button.pressed.bg.color" "osd.button.unpressed.bg.color" )
+THEMERC_PROPERTY_NAME_LIST_MENU_DISABLED_INACTIVE_BACKGROUND_COLOR=( "osd.unhilight.bg.color" "osd.button.focused.bg.color" "osd.button.pressed.bg.color" "osd.button.unpressed.bg.color" )
 THEMERC_PROPERTY_NAME_LIST_MENU_DISABLED_INACTIVE_FONT_COLOR=( "menu.items.disabled.text.color" )
 
 THEMERC_PROPERTY_NAME_LIST_MENU_TITLE_BACKGROUND_COLOR=( "menu.title.bg.color" "osd.bg.color" )
 THEMERC_PROPERTY_NAME_LIST_MENU_TITLE_FONT_COLOR=( "menu.title.text.color" )
-
-THEMERC_PROPERTY_NAME_LIST_MENU_DISABLED_FONT_COLOR=( "menu.items.disabled.text.color" )
 
 THEMERC_PROPERTY_VALUE_DELIMITER=":"
 
