@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 function print_usage(){
-	printf "Usage: ${0} -f <FELIX_OPENBOX_PALETTE_FILE>\n"
+	printf "Usage: ${0} <FELIX_OPENBOX_PALETTE_FILE>\n"
 	printf "\n"
 }
 
@@ -89,6 +89,8 @@ function key_value_retriever(){
 		VALUE="${LINE:${INDEX_OF_FIRST_EQUAL}}"
 	fi
 	export "${KEY_VARNAME}"="${KEY}"
+	# Trim the value
+	VALUE=$(echo "${VALUE}"|awk '{$1=$1;print}')
 	export "${VALUE_VARNAME}"="${VALUE}"
 }
 
@@ -103,6 +105,29 @@ function apply_template(){
 	done
 }
 
+function is_color_from_palette(){
+	SEARCHED_COLOR="${1}"
+	if [[ -z "${SEARCHED_COLOR}" ]]; then
+		printf "ERROR: SEARCHED_COLOR should not be empty\n"
+		return
+	fi
+	VALUE_VARNAME="${2}"
+	if [[ -z "${VALUE_VARNAME}" ]]; then
+		printf "ERROR: VALUE_VARNAME should not be empty\n"
+		return
+	fi
+	FOUND_SEARCHED_COLOR="false"
+	if [[ ! -z "${SEARCHED_COLOR}" ]]; then
+		for PALETTE_COLOR_NAME in "${PALETTE_COLOR_NAME_ARRAY[@]}"; do
+			if [[ "${!PALETTE_COLOR_NAME}" == "${SEARCHED_COLOR}" ]] ; then
+				FOUND_SEARCHED_COLOR="true"
+				break
+			fi
+		done
+	fi
+	export "${VALUE_VARNAME}"="${FOUND_SEARCHED_COLOR}"
+}
+
 function generate_themerc_html_overview(){
 	FILE_PATH="${1}"
 	
@@ -113,17 +138,22 @@ function generate_themerc_html_overview(){
 		if [[ ! -z "${LINE}" ]]; then
 			key_value_retriever "${LINE}" "LINE_KEY" "LINE_VALUE"
 			if [[ ! -z "${LINE_KEY}" ]]; then
-				HTML_OVERVIEW+="<tr>"
-				HTML_OVERVIEW+="<td>${LINE_KEY}</td>"
-				
-				# If key ends with '.color' then render the color
 				if [[ "${LINE_KEY}" == *.color* ]]; then
+					is_color_from_palette "${LINE_VALUE}" "IS_COLOR_FROM_PALETTE" 
+					if [[ "${IS_COLOR_FROM_PALETTE}" == "true" ]]; then
+						HTML_OVERVIEW+="<tr>"
+					else
+						HTML_OVERVIEW+="<tr style=\"background: repeating-linear-gradient( -55deg, #ffffff, #ffffff 10px, #eeeeee 10px, #eeeeee 20px );\">"
+					fi
+					HTML_OVERVIEW+="<td>${LINE_KEY}</td>"
 					HTML_OVERVIEW+="<td><span style=\"display:inline-block;width:120px;height:40px;background-color:${LINE_VALUE};\">&nbsp;</span> ${LINE_VALUE}</td>"
+					HTML_OVERVIEW+="</tr>"
 				else
+					HTML_OVERVIEW+="<tr>"
+					HTML_OVERVIEW+="<td>${LINE_KEY}</td>"
 					HTML_OVERVIEW+="<td>${LINE_VALUE}</td>"
+					HTML_OVERVIEW+="</tr>"
 				fi
-				
-				HTML_OVERVIEW+="</tr>"
 			fi
 		fi
 	done < "${FILE_PATH}"
